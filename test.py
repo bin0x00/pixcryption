@@ -6,7 +6,7 @@ msg = 'Hi my name is Max and this is an encrypted image that decrypts into a str
 if os.path.exists('user_key.png'):
     key_list = get_list_from_key('user_key.png')
 else:
-    user_key, key_list = create_user_key(str(uuid4()))
+    user_key, key_list = create_user_key(str(uuid4()))  # uuid4 is a random value
 result, message = encrypt_w_user_key(key_list, msg)
 if result:
   print('Encrypted Message Available At:', message)
@@ -15,3 +15,6 @@ else:
 print('Decrypting...')
 decrypt_with_user_key('user_key.png', message)
 print('Done!')
+
+# print('\n'+str(key_list))
+print('\n'+str(user_key))

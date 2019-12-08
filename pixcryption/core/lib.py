@@ -1,19 +1,24 @@
-from PIL import Image
-import numpy as np
 from uuid import uuid4
 from math import sqrt
-import time
+from PIL import Image
+import numpy as np
 import itertools
 import random
+# import time --> There is not use of time module :/
 
 def create_user_key(uuid):
+
+  #  Creating random varibles:
   print('Preparing To Generate User Key (This may take a while but will only run once!)')
-  allc = [i for i in itertools.product(range(256), repeat=3)]
+  allc = [i for i in itertools.product(range(256), repeat=3)]  # WORK here it take tooooooo long!
+  # product(range(2), repeat=3) --> 000 001 010 011 100 101 110 111
   print('Complete...')
   print('Randomizing Base Key...')
-  random.seed(uuid)
-  random.shuffle(allc)
+  random.seed(uuid)  # seed here is a kind of remember random with value uuid
+  random.shuffle(allc)  # randomised the allc value
   print('Randomized...')
+
+  #  Creating pixel positions: <-- WORK HERE
   max_it = 1114112
   w = int( 1114112 / sqrt(1114112)) + 1
   pixels = []
@@ -26,13 +31,15 @@ def create_user_key(uuid):
     if total == max_it:
       break
     if count == w:
-      pixels.append(fresh)
-      fresh = [None] * w
-      count = 0
-    fresh[count] = i
+      pixels.append(fresh)  # <-- Appends 'fresh'
+      fresh = [None] * w  # <-- Rests
+      count = 0  # <-- Rests
+    fresh[count] = i # <-- appends 'i'
     key_list[total] = i
     count += 1
     total += 1
+
+  #  Creating Image:
   array = np.array(pixels, dtype=np.uint8)
   new_image = Image.fromarray(array)
   new_image.save('user_key.png')
@@ -44,7 +51,7 @@ def get_list_from_key(imdata):
   pixels = list(im.getdata())
   return pixels
 
-def encrypt_w_user_key(key_list, string):
+def encrypt_w_user_key(key_list, string):  # <-- WORK HERE
   try:
     w = int(len(string) / sqrt(len(string))) + 1
     pixels = []
@@ -71,7 +78,7 @@ def encrypt_w_user_key(key_list, string):
   except Exception as e:
     return False, e
   
-def decrypt_with_user_key(user_key, image_path):
+def decrypt_with_user_key(user_key, image_path): # <-- WORK HERE
   try:
     # get image pixels
     str_image = Image.open(image_path)
